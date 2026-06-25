@@ -9,7 +9,7 @@ let currentMonth = new Date().getMonth() + 1;   // 1-based
 let selectedDate = new Date().toLocaleDateString('en-CA');
 let bookedDates  = new Set();
 let allRooms     = [];
-
+//ngaballs
 // ── DOM refs ─────────────────────────────────────────────────
 const calTitle    = document.getElementById('cal-title');
 const calGrid     = document.getElementById('cal-grid');
