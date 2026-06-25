@@ -1,0 +1,326 @@
+/* ============================================================
+   HOTEL CHECK-IN  —  styles.css
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg:           #0f1117;
+  --surface:      #1a1d27;
+  --surface-2:    #22263a;
+  --border:       #2e3249;
+  --text:         #e8eaf0;
+  --text-muted:   #7b819e;
+  --accent:       #6c8fff;
+  --accent-dim:   rgba(108,143,255,.15);
+
+  /* room status colours */
+  --free:         #22c55e;   /* available   */
+  --booked:       #6c8fff;   /* short stay  */
+  --long-stay:    #f59e0b;   /* monthly+    */
+  --checkout:     #94a3b8;   /* checked out */
+  --pending:      #f87171;   /* pending     */
+
+  --radius:       10px;
+  --radius-sm:    6px;
+  --font:         'Inter', system-ui, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Layout ---------- */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+header h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; }
+header span { color: var(--text-muted); font-size: .85rem; }
+
+main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  flex: 1;
+}
+
+/* ---------- Calendar panel ---------- */
+#calendar-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cal-nav h2 { font-size: 1rem; font-weight: 600; }
+.cal-nav button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.cal-nav button:hover { background: var(--surface-2); }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-day-label {
+  text-align: center;
+  font-size: .7rem;
+  color: var(--text-muted);
+  padding: 4px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: .85rem;
+  position: relative;
+  transition: background .12s;
+  user-select: none;
+}
+.cal-day:hover { background: var(--surface-2); }
+.cal-day.empty { cursor: default; }
+.cal-day.today { font-weight: 700; color: var(--accent); }
+.cal-day.selected { background: var(--accent-dim); outline: 1px solid var(--accent); }
+.cal-day.has-bookings::after {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  bottom: 4px;
+}
+
+/* ---------- Legend ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+/* ---------- Rooms panel ---------- */
+#rooms-panel {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+}
+#rooms-panel h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text-muted);
+}
+#rooms-panel h2 span { color: var(--text); }
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* ---------- Room card ---------- */
+.room-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  transition: border-color .15s;
+}
+.room-card:hover { border-color: var(--accent); }
+
+.room-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.room-number {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.room-type {
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.status-badge {
+  font-size: .7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.badge-available  { background: rgba(34,197,94,.15);  color: var(--free);      }
+.badge-confirmed  { background: rgba(108,143,255,.15); color: var(--booked);   }
+.badge-long-stay  { background: rgba(245,158,11,.15);  color: var(--long-stay);}
+.badge-checked-out{ background: rgba(148,163,184,.15); color: var(--checkout); }
+.badge-pending    { background: rgba(248,113,113,.15); color: var(--pending);  }
+
+.room-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.guest-name { font-size: .9rem; font-weight: 500; }
+.stay-dates { font-size: .78rem; color: var(--text-muted); margin-top: 2px; }
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.price-label { font-size: .75rem; color: var(--text-muted); }
+.price-value { font-size: 1rem; font-weight: 700; color: var(--accent); }
+
+.available-msg { font-size: .85rem; color: var(--text-muted); }
+
+/* ---------- Empty / loading states ---------- */
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  gap: .5rem;
+  color: var(--text-muted);
+  font-size: .9rem;
+  text-align: center;
+}
+.state-message .icon { font-size: 2.5rem; opacity: .4; }
+
+/* ---------- Modal overlay ---------- */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  width: 600px;
+  max-width: 150%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.modal h3 { font-size: 1rem; font-weight: 600; }
+
+.form-group { display: flex; flex-direction: column; gap: .75rem; }
+.form-group label { font-size: .8rem; color: var(--text-muted); }
+.form-group input, .form-group select, .form-group textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .55rem .75rem;
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color .15s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--accent); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+
+.modal-actions { display: flex; gap: .75rem; justify-content: flex-end; margin-top: .5rem; }
+.btn {
+  padding: .55rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity .15s;
+}
+#f-custom-days {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .55rem .75rem;
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  width: 100%;
+  outline: none;
+}
+
+.btn-clear {
+  background: rgba(248, 113, 113, .15);
+  color: var(--pending);
+  border: 1px solid rgba(248, 113, 113, .3);
+  width: 100%;
+  margin-top: .25rem;
+}
+
+.btn-clear:hover {
+  background: rgba(248, 113, 113, .25);
+}
+
+#f-custom-days:focus {
+  border-color: var(--accent);
+}
+.btn:hover { opacity: .85; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-ghost   { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  main { grid-template-columns: 1fr; }
+  #calendar-panel { border-right: none; border-bottom: 1px solid var(--border); }
+}

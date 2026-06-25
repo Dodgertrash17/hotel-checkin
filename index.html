@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Check-In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>🏨 Hotel Check-In</h1>
+    <span id="today-label"></span>
+  </header>
+
+  <!-- ── Main layout ── -->
+  <main>
+
+    <!-- Left: Calendar -->
+    <div id="calendar-panel">
+      <div class="cal-nav">
+        <button id="prev-month">&#8249;</button>
+        <h2 id="cal-title"></h2>
+        <button id="next-month">&#8250;</button>
+      </div>
+
+      <!-- Day-of-week labels -->
+      <div id="cal-grid" class="cal-grid">
+        <div class="cal-day-label">Su</div>
+        <div class="cal-day-label">Mo</div>
+        <div class="cal-day-label">Tu</div>
+        <div class="cal-day-label">We</div>
+        <div class="cal-day-label">Th</div>
+        <div class="cal-day-label">Fr</div>
+        <div class="cal-day-label">Sa</div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--free)"></div> Available
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--booked)"></div> Booked
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--long-stay)"></div> Long Stay
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--checkout)"></div> Checked Out
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--pending)"></div> Pending
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Rooms for selected day -->
+    <div id="rooms-panel">
+      <h2 id="rooms-title">Select a day to view rooms</h2>
+      <div id="rooms-grid" class="rooms-grid">
+        <div class="state-message">
+          <div class="icon">📅</div>
+          <p>Click a day on the calendar<br>to see room availability.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── New Booking Modal ── -->
+  <div id="booking-modal" class="modal-overlay">
+    <div class="modal">
+      <h3 id="modal-room-title">Book Room</h3>
+
+      <form id="booking-form">
+        <div class="form-group">
+          <label for="f-name">Guest Name *</label>
+          <input id="f-name" type="text" placeholder="Full name" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-email">Email</label>
+            <input id="f-email" type="email" placeholder="email@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" type="tel" placeholder="+1-555-0100" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-checkin">Check-In *</label>
+            <input id="f-checkin" type="date" required />
+          </div>
+          <div class="form-group">
+            <label for="f-checkout">Check-Out *</label>
+            <input id="f-checkout" type="number" min="1" placeholder="e.g. 3" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-status">Booking Type</label>
+          <select id="f-status">
+            <option value="confirmed">Confirmed (short stay)</option>
+            <option value="long-stay">Long Stay (monthly+)</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="f-notes">Notes</label>
+          <textarea id="f-notes" rows="2" placeholder="Any special requests…"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="modal-close">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Your files -->
+  <script src="supabase.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // Show today's date in the header
+    document.getElementById('today-label').textContent =
+      new Date().toLocaleDateString('default', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  </script>
+
+</body>
+</html>
