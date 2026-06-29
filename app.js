@@ -331,5 +331,10 @@ function formatDate(dateStr) {
     .toLocaleDateString('default', { month: 'short', day: 'numeric' });
 }
 
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await db.auth.signOut();
+  window.location.href = 'login.html';
+});
+
 // ── Boot ─────────────────────────────────────────────────────
 init();

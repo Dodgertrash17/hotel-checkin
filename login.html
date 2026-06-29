@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Check-In — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .login-box h1 { font-size: 1.1rem; font-weight: 600; text-align: center; }
+    .login-box p  { font-size: .85rem; color: var(--text-muted); text-align: center; }
+    .error-msg { color: var(--pending); font-size: .82rem; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>🏨 Hotel Check-In</h1>
+    <p>Staff access only</p>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="staff@hotel.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="••••••••" />
+    </div>
+
+    <div class="error-msg" id="error-msg">Incorrect email or password.</div>
+
+    <button class="btn btn-primary" id="login-btn" style="width:100%; padding:.7rem;">
+      Log In
+    </button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errMsg   = document.getElementById('error-msg');
+      const btn      = document.getElementById('login-btn');
+
+      btn.textContent = 'Logging in…';
+      btn.disabled = true;
+      errMsg.style.display = 'none';
+
+      const { error } = await db.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        errMsg.style.display = 'block';
+        btn.textContent = 'Log In';
+        btn.disabled = false;
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+
+    // If already logged in, skip login page
+    db.auth.getSession().then(({ data }) => {
+      if (data.session) window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

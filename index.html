@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hotel Check-In</title>
+  <button class="btn btn-ghost" id="logout-btn" style="font-size:.8rem; padding:.4rem .9rem;">
+  Log Out</button>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -131,6 +133,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Your files -->
   <script src="supabase.js"></script>
+  <script>
+  db.auth.getSession().then(({ data }) => {
+    if (!data.session) window.location.href = 'login.html';
+  });
+</script>
   <script src="app.js"></script>
 
   <script>
