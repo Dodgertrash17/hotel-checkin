@@ -114,10 +114,45 @@ async function renderRooms(date) {
     return;
   }
 
+  // Split into occupied and available
+  const occupiedRooms  = [];
+  const availableRooms = [];
+
   allRooms.forEach(room => {
     const booking = bookingByRoom[room.id] || null;
-    roomsGrid.appendChild(buildRoomCard(room, booking, date));
+    if (booking) occupiedRooms.push({ room, booking });
+    else         availableRooms.push({ room, booking: null });
   });
+
+  // Occupied section
+  if (occupiedRooms.length > 0) {
+    const heading = document.createElement('h3');
+    heading.className = 'room-section-heading';
+    heading.textContent = '🔴 Occupied';
+    roomsGrid.appendChild(heading);
+
+    const row = document.createElement('div');
+    row.className = 'rooms-row';
+    occupiedRooms.forEach(({ room, booking }) => {
+      row.appendChild(buildRoomCard(room, booking, date));
+    });
+    roomsGrid.appendChild(row);
+  }
+
+  // Available section
+  if (availableRooms.length > 0) {
+    const heading = document.createElement('h3');
+    heading.className = 'room-section-heading';
+    heading.textContent = '🟢 Available';
+    roomsGrid.appendChild(heading);
+
+    const row = document.createElement('div');
+    row.className = 'rooms-row';
+    availableRooms.forEach(({ room, booking }) => {
+      row.appendChild(buildRoomCard(room, booking, date));
+    });
+    roomsGrid.appendChild(row);
+  }
 }
 
 function buildRoomCard(room, booking, date) {
