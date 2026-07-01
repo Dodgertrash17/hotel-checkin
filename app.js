@@ -336,5 +336,22 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
   window.location.href = 'login.html';
 });
 
+let inactivityTimer;
+
+function resetTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(async () => {
+    await db.auth.signOut();
+    window.location.href = 'login.html';
+  }, 10 * 60 * 1000); // 10 minutes
+}
+
+// Reset timer on any user activity
+['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+  document.addEventListener(event, resetTimer);
+});
+
+// Start the timer when the page loads
+resetTimer();
 // ── Boot ─────────────────────────────────────────────────────
 init();
