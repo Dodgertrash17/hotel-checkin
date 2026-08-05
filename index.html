@@ -108,13 +108,19 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="f-status">Booking Type</label>
-          <select id="f-status">
-            <option value="confirmed">Confirmed (short stay)</option>
-            <option value="long-stay">Long Stay (monthly+)</option>
-            <option value="pending">Pending</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-total">Total Amount ($) *</label>
+            <input id="f-total" type="number" min="0" step="0.01" placeholder="e.g. 240.00" required />
+          </div>
+          <div class="form-group">
+            <label for="f-payment">Payment Type</label>
+            <select id="f-payment">
+              <option value="" disabled selected>Select...</option>
+              <option value="cash">Cash</option>
+              <option value="card">Card</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">

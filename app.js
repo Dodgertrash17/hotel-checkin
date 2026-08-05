@@ -259,7 +259,9 @@ function openBookingModal(room, date) {
   document.getElementById('f-email').value    = '';
   document.getElementById('f-phone').value    = '';
   document.getElementById('f-notes').value    = '';
-  document.getElementById('f-status').value   = 'confirmed';
+  document.getElementById('f-total').value    = '';
+  document.getElementById('f-payment').value  = '';
+ // document.getElementById('f-status').value   = 'confirmed';
 
   modal.classList.add('open');
 }
@@ -276,11 +278,12 @@ bookingForm.addEventListener('submit', async e => {
   e.preventDefault();
   const checkIn  = document.getElementById('f-checkin').value;
   //const checkOut = document.getElementById('f-checkout').value;
-  const name     = document.getElementById('f-name').value.trim();
-  const email    = document.getElementById('f-email').value.trim();
-  const phone    = document.getElementById('f-phone').value.trim();
-  const notes    = document.getElementById('f-notes').value.trim();
-  const status   = document.getElementById('f-status').value;
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const notes = document.getElementById('f-notes').value.trim();
+  const status = 'confirmed';
+  const paymentType = document.getElementById('f-payment').value;
   const numDays = parseInt(document.getElementById('f-checkout').value);
 
   if (!checkIn || !numDays || numDays < 1 || !name) {
@@ -308,8 +311,8 @@ bookingForm.addEventListener('submit', async e => {
  // if (nights <= 0) { alert('Check-out must be after check-in.'); return; }
 
  
-  const totalPrice = (nights * Number(activeRoom.base_price)).toFixed(2);
-
+  //const totalPrice = (nights * Number(activeRoom.base_price)).toFixed(2);
+  const totalPrice  = parseFloat(document.getElementById('f-total').value).toFixed(2); 
   const submitBtn = bookingForm.querySelector('[type=submit]');
   submitBtn.textContent = 'Saving…';
   submitBtn.disabled = true;
@@ -319,13 +322,13 @@ bookingForm.addEventListener('submit', async e => {
     if (!guest) throw new Error('Could not create guest');
 
     const booking = await createBooking({
-      room_id:     activeRoom.id,
-      guest_id:    guest.id,
-      check_in:    checkIn,
-      check_out:   checkOut,
-      total_price: totalPrice,
+      room_id:      activeRoom.id,
+      guest_id:     guest.id,
+      check_in:     checkIn,
+      check_out:    checkOut,
+      total_price:  totalPrice,
       status,
-      notes,
+      notes:        notes + (paymentType ? ` | Payment: ${paymentType}` : ''),
     });
 
     if (!booking) throw new Error('Could not create booking');
