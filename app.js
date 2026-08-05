@@ -301,17 +301,6 @@ bookingForm.addEventListener('submit', async e => {
   const nights = numDays;
 
   
- 
-
- // const checkOut = checkOutDate.toLocaleDateString('en-CA');
- // const nights = Math.round((checkOutDate - checkInDate) / 86400000) || 1;
- // const nights = Math.round((new Date(checkOut) - new Date(checkIn)) / 86400000);
- // const nights = 0;
- // if ()
- // if (nights <= 0) { alert('Check-out must be after check-in.'); return; }
-
- 
-  //const totalPrice = (nights * Number(activeRoom.base_price)).toFixed(2);
   const totalPrice  = parseFloat(document.getElementById('f-total').value).toFixed(2); 
   const submitBtn = bookingForm.querySelector('[type=submit]');
   submitBtn.textContent = 'Saving…';

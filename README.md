@@ -58,9 +58,4 @@ hotel-checkin/
 └── README.md       ← this file
 ```
 
-## Next Steps (ideas to build on)
-- Add a **guest search** page
-- Add **check-out** button on room cards
-- Send **email confirmations** via Supabase Edge Functions
-- Add **staff login** with Supabase Auth
-- Export a **daily report** to PDF
+
