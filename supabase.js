@@ -1,5 +1,5 @@
 
- const SUPABASE_URL  = 'https://pvnckvnfwvqicppemeup.supabase.co';
+const SUPABASE_URL  = 'https://pvnckvnfwvqicppemeup.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2bmNrdm5md3ZxaWNwcGVtZXVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwMzkzNDcsImV4cCI6MjA5NjYxNTM0N30.q6RKMTjirgzBKrLE3AKrMjLyIsRd9Iv5kZTCOSpA5hk';
  
 const { createClient } = supabase;
