@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="DerGhanLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="reports.css" />
+</head>
+<body>
+
+<div class="reports-container">
+
+  <div class="reports-header">
+    <a href="index.html" class="back-btn">← Back</a>
+    <h1>Sales Report</h1>
+  </div>
+
+  <!-- Range tabs -->
+  <div class="range-tabs">
+    <button class="range-tab active" data-range="today">Today</button>
+    <button class="range-tab" data-range="month">This Month</button>
+    <button class="range-tab" data-range="custom">Custom Range</button>
+  </div>
+
+  <!-- Custom range picker (hidden until Custom tab selected) -->
+  <div class="range-bar" id="custom-range-bar" style="display:none;">
+    <div class="form-group">
+      <label>From</label>
+      <input type="date" id="range-from" />
+    </div>
+    <div class="form-group">
+      <label>To</label>
+      <input type="date" id="range-to" />
+    </div>
+    <button class="btn btn-primary" id="apply-range">Apply</button>
+  </div>
+
+  <!-- Summary table -->
+  <div class="table-wrap">
+    <div class="report-label" id="report-label">Loading…</div>
+    <table id="summary-table">
+      <thead>
+        <tr>
+          <th>Room</th>
+          <th>Type</th>
+          <th>Times Sold</th>
+          <th>Current Status</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody id="summary-body">
+        <tr><td colspan="5" class="empty-msg">Loading…</td></tr>
+      </tbody>
+    </table>
+    <div class="revenue-total" id="revenue-total" style="display:none;">
+      Total Revenue: <span id="total-revenue-val">$0.00</span>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <div id="detail-panel">
+    <div class="detail-header">
+      <h2 id="detail-title">Guest Details</h2>
+      <button class="close-detail" id="close-detail">✕ Close</button>
+    </div>
+    <div class="table-wrap">
+      <table id="detail-table">
+        <thead>
+          <tr>
+            <th>Guest Name</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>Nights</th>
+            <th>Total Paid</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="detail-body">
+          <tr><td colspan="6" class="empty-msg">Select a room to view details.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+body { padding: 0; }
+
+.reports-container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+.reports-header {
+    display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.reports-header h1 { font-size: 1.2rem; font-weight: 700; }
+
+.back-btn {
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	color: var(--text);
+	padding: .45rem .9rem;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	font-size: .85rem;
+	font-family: var(--font);
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+}
+.back-btn:hover { background: var(--border); }
+
+/* Range picker */
+.range-bar {
+	display: flex;
+	align-items: flex-end;
+	gap: .75rem;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 1.25rem;
+	margin-bottom: 1.5rem;
+	flex-wrap: wrap;
+}
+.range-bar .form-group { flex: 1; min-width: 140px; }
+.range-bar label { font-size: .78rem; color: var(--text-muted); display: block; margin-bottom: .3rem; }
+.range-bar input[type="date"] {
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	color: var(--text);
+	padding: .5rem .75rem;
+	border-radius: var(--radius-sm);
+	font-size: .88rem;
+	font-family: var(--font);
+	width: 100%;
+	outline: none;
+}
+.range-bar input[type="date"]:focus { border-color: var(--accent); }
+
+.range-tabs {
+	display: flex;
+	gap: .5rem;
+	margin-bottom: 1.5rem;
+	flex-wrap: wrap;
+}
+.range-tab {
+	padding: .5rem 1.2rem;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--text-muted);
+	font-size: .85rem;
+	font-weight: 600;
+	cursor: pointer;
+	font-family: var(--font);
+	transition: all .15s;
+}
+.range-tab:hover { border-color: var(--accent); color: var(--text); }
+.range-tab.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+/* Summary table */
+.table-wrap {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+.report-label {
+	padding: 1rem 1.25rem;
+	font-size: .82rem;
+	color: var(--text-muted);
+	border-bottom: 1px solid var(--border);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: .88rem;
+}
+thead th {
+	text-align: left;
+	padding: .75rem 1.25rem;
+	font-size: .75rem;
+	font-weight: 600;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	border-bottom: 1px solid var(--border);
+	background: var(--surface-2);
+}
+tbody tr {
+	border-bottom: 1px solid var(--border);
+	transition: background .12s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
+tbody td {
+	padding: .85rem 1.25rem;
+	vertical-align: middle;
+}
+
+.times-sold-btn {
+	background: var(--accent-dim);
+	color: var(--accent);
+	border: 1px solid rgba(108,143,255,.3);
+	border-radius: var(--radius-sm);
+	padding: .3rem .7rem;
+	font-size: .82rem;
+	font-weight: 600;
+	cursor: pointer;
+	font-family: var(--font);
+	transition: background .15s;
+}
+.times-sold-btn:hover { background: rgba(108,143,255,.25); }
+.times-sold-btn:disabled { opacity: .4; cursor: default; }
+
+.status-pill {
+	font-size: .72rem;
+	font-weight: 600;
+	padding: 3px 8px;
+	border-radius: 20px;
+	text-transform: uppercase;
+}
+.pill-occupied  { background: rgba(108,143,255,.15); color: var(--booked); }
+.pill-available { background: rgba(34,197,94,.15);   color: var(--free);   }
+
+/* Detail panel */
+#detail-panel {
+	display: none;
+	margin-top: 1.5rem;
+}
+#detail-panel.open { display: block; }
+
+.detail-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+}
+.detail-header h2 { font-size: 1rem; font-weight: 600; }
+.close-detail {
+	background: none;
+	border: 1px solid var(--border);
+	color: var(--text-muted);
+	border-radius: var(--radius-sm);
+	padding: .3rem .75rem;
+	cursor: pointer;
+	font-family: var(--font);
+	font-size: .82rem;
+}
+.close-detail:hover { color: var(--text); }
+
+.empty-msg {
+	padding: 2rem;
+	text-align: center;
+	color: var(--text-muted);
+	font-size: .88rem;
+}
+
+.revenue-total {
+	padding: .85rem 1.25rem;
+	border-top: 1px solid var(--border);
+	text-align: right;
+	font-size: .88rem;
+	color: var(--text-muted);
+	background: var(--surface-2);
+}
+.revenue-total span { color: var(--accent); font-weight: 700; font-size: 1rem; }
