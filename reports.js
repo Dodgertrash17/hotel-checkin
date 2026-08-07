@@ -1,9 +1,4 @@
 
-// ── Auth guard ───────────────────────────────────────────
-db.auth.getSession().then(({ data }) => {
-	if (!data.session) window.location.href = 'login.html';
-});
-
 // ── State ────────────────────────────────────────────────
 let activeRange = 'today';
 let fromDate	= '';
@@ -160,6 +155,12 @@ function closeDetail() {
 }
 document.getElementById('close-detail').addEventListener('click', closeDetail);
 
+function yearRange() {
+  const year  = new Date().getFullYear();
+  const today = todayStr();
+  return { from: `${year}-01-01`, to: `${year}-12-31` };
+}
+
 // ── Tab switching ────────────────────────────────────────
 document.querySelectorAll('.range-tab').forEach(tab => {
 	tab.addEventListener('click', () => {
@@ -186,39 +187,46 @@ document.getElementById('apply-range').addEventListener('click', () => {
 });
 
 function loadRange() {
-	const today = todayStr();
-	if (activeRange === 'today') {
-		buildReport(today, today, `Sales — Today (${formatDate(today)})`);
-	} else if (activeRange === 'month') {
-		const { from, to } = monthRange();
-		buildReport(from, to, `Sales — ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}`);
-	} else if (activeRange === 'custom' && fromDate && toDate) {
-		buildReport(fromDate, toDate, `Sales — ${formatDate(fromDate)} to ${formatDate(toDate)}`);
-	}
+  const today = todayStr();
+  if (activeRange === 'today') {
+    buildReport(today, today, `Sales — Today (${formatDate(today)})`);
+  } else if (activeRange === 'month') {
+    const { from, to } = monthRange();
+    buildReport(from, to, `Sales — ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}`);
+  } else if (activeRange === 'year') {
+    const { from, to } = yearRange();
+    buildReport(from, to, `Sales — Full Year ${new Date().getFullYear()}`);
+  } else if (activeRange === 'custom' && fromDate && toDate) {
+    buildReport(fromDate, toDate, `Sales — ${formatDate(fromDate)} to ${formatDate(toDate)}`);
+  }
 }
 
 // ── Init ─────────────────────────────────────────────────
 async function init() {
-	const { data, error } = await db.from('rooms').select('*').order('room_number', { ascending: true });
-	if (error) { console.error(error); return; }
-	allRooms = data;
+  // Auth guard
+  const { data: sessionData } = await db.auth.getSession();
+  if (!sessionData.session) { window.location.href = 'login.html'; return; }
 
-	// Read the range from the URL e.g. reports.html?range=month
-	const params = new URLSearchParams(window.location.search);
-	const rangeParam = params.get('range');
+  const { data, error } = await db.from('rooms').select('*').order('room_number', { ascending: true });
+  if (error) { console.error(error); return; }
+  allRooms = data;
 
-	if (rangeParam === 'month' || rangeParam === 'custom') {
-		activeRange = rangeParam;
-		document.querySelectorAll('.range-tab').forEach(t => {
-			t.classList.toggle('active', t.dataset.range === rangeParam);
-		});
-		if (rangeParam === 'custom') {
-			document.getElementById('custom-range-bar').style.display = 'flex';
-			return; // Wait for user to pick dates and click Apply
-		}
-	}
+  // Read the range from the URL
+  const params     = new URLSearchParams(window.location.search);
+  const rangeParam = params.get('range') || 'today';
 
-	loadRange();
+  activeRange = rangeParam;
+
+  document.querySelectorAll('.range-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.range === rangeParam);
+  });
+
+  if (rangeParam === 'custom') {
+    document.getElementById('custom-range-bar').style.display = 'flex';
+    return;
+  }
+
+  loadRange();
 }
 
 init();
